@@ -97,13 +97,13 @@
 	<distributionManagement>
 	
 	    <repository>
-	      <id>nexus</id>
+	      <id>nexus-releases</id>
 	      <name>facebook Releases Nexus Repository</name>
 	      <url>http://65.2.140.244:8999/bhargavi/repository/facebook_release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
-	      <id>nexus</id>
+	      <id>nexus-snapshot</id>
 	      <name>facebook Snapshot Nexus Repository </name>
 	      <url>http://65.2.140.244:8999/bhargavi/repository/faceboo-snapshot/</url>
 	    </snapshotRepository>
