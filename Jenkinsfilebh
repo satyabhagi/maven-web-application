@@ -1,0 +1,28 @@
+node{
+    def mavenHome = tool name: "maven3.8.4"
+    stage('CheckoutCode'){
+        git branch: 'development', credentialsId: 'b464606c-f2ad-4e36-93a0-0ea6f91cba8f', url: 'https://github.com/satyabhagi/maven-web-application.git'
+    }
+    stage('Build'){
+    sh "${mavenHome}/bin/mvn clean package"    
+    }
+    stage('ExecuteSonarqubeReport'){
+    sh "${mavenHome}/bin/mvn clean sonar:sonar"    
+    }
+     stage('NexusArtifactDeploy'){
+    sh "${mavenHome}/bin/mvn clean deploy"    
+    }
+    stage('deployappTomcat'){
+        sshagent(['100ba98c-c558-4209-ae3c-7716327a6cd2']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.36.81:/opt/apache-tomcat-9.0.56/webapps"
+            
+        }
+        
+    }
+    stage('sendNOtification'){
+        emailext body: '''Build over 
+
+Regards,
+bhargavi''', subject: 'Bulid over', to: 'bhargaviamkem@gmail.com'
+    }
+}
